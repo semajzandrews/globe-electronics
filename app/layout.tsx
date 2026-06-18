@@ -1,22 +1,35 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Inter, Italiana } from "next/font/google";
+import { Archivo } from "next/font/google";
 import SmoothScroll from "./components/SmoothScroll";
 import "./globals.css";
 
-const display = Bodoni_Moda({ variable: "--font-display", subsets: ["latin"], weight: ["400","500","600"], style: ["normal","italic"] });
-const body = Inter({ variable: "--font-body", subsets: ["latin"] });
-const script = Italiana({ variable: "--font-script", subsets: ["latin"], weight: ["400"] });
+const body = Archivo({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
-  title: "Edgar Jewelry — Heirloom craft on Central Ave, Orange NJ",
-  description: "Hand-set diamonds, custom rings, repairs, and appraisals. A 99-review neighborhood jeweler kept quietly excellent on Central Avenue, Orange NJ.",
-  openGraph: { title: "Edgar Jewelry · Orange NJ", description: "Heirloom craft. Custom + repairs.", type: "website" },
+  metadataBase: new URL("https://globe-electronics.vercel.app"),
+  title: "Globe Electronics — Phone & electronics repair on Main St, Orange NJ",
+  description:
+    "Since 2009, Globe Electronics has sold and brought back devices on Main Street in the City of Orange. Unlocked phones and tablets, TVs, stereos, Bluetooth speakers, Blu-ray. Repairs done at the bench.",
+  openGraph: {
+    title: "Globe Electronics · Orange NJ",
+    description:
+      "We open it up and bring it back. Phone, tablet and home-electronics repair on Main Street since 2009.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${script.variable} antialiased`}>
-      <body className="bg-velvet text-diamond velvet-grain min-h-screen">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${body.variable} antialiased`}
+    >
+      <body className="bg-bench text-bone min-h-screen">
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

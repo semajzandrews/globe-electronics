@@ -1,86 +1,99 @@
+/* Erode — Fontshare (the locked lane display face). Warm, humanist, hand-cut serif. */
+@import url("https://api.fontshare.com/v2/css?f[]=erode@400,500,600,700,1&display=swap");
 @import "tailwindcss";
 
-/* Edgar Jewelry · Tokens
-   Lineage: Tiffany catalog + diamond facet motif + jewelry-box velvet
-   + Vogue editorial. Hushed, expensive, museum-light. */
+/* Globe Electronics · Tokens
+   Lineage: a craftsman's repair bench under a warm lamp. Graphite + bone + copper.
+   Burnt-orange #C75300 is the "powered-on / revived / solder-heat" glow. Handcraft, not tech-store. */
 @theme {
-  --color-velvet:    #1A0F1E;     /* deep velvet aubergine */
-  --color-velvet-2:  #25172A;
-  --color-velvet-3:  #382439;
-  --color-diamond:   #F5F2EE;     /* warm diamond white */
-  --color-diamond-2: #E4DED4;
-  --color-champagne: #C9A961;     /* champagne gold */
-  --color-champagne-2:#A88842;
-  --color-rose:      #C28999;     /* dusted rose */
-  --color-jet:       #0A0510;
-  --color-rule:      rgba(245,242,238,0.15);
-  --color-rule-2:    rgba(245,242,238,0.35);
+  --color-bench:    #14110E;   /* warm near-black graphite bench */
+  --color-bench-2:  #1C1815;
+  --color-bench-3:  #262019;
+  --color-bone:     #F3ECE0;   /* warm bone ivory */
+  --color-bone-2:   #D8CCB9;
+  --color-bone-dim: #9C9183;
+  --color-ember:    #C75300;   /* LOCKED accent burnt-orange */
+  --color-ember-2:  #E0721E;   /* brighter revive glow */
+  --color-ember-3:  #8A3A00;   /* deep solder */
+  --color-copper:   #B07A4A;   /* copper trace warmth */
+  --color-rule:     rgba(243,236,224,0.12);
+  --color-rule-2:   rgba(243,236,224,0.28);
 
-  --font-display: "Bodoni Moda", "Didot", Georgia, ui-serif, serif;
-  --font-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-script:  "Italiana", ui-serif, serif;
+  --font-display: "Erode", "Georgia", ui-serif, serif;
+  --font-body:    var(--font-body), "Archivo", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   :root {
-    --velvet:#1A0F1E; --velvet-2:#25172A; --velvet-3:#382439;
-    --diamond:#F5F2EE; --diamond-2:#E4DED4;
-    --champagne:#C9A961; --champagne-2:#A88842;
-    --rose:#C28999; --jet:#0A0510;
-    --rule:rgba(245,242,238,0.15); --rule-2:rgba(245,242,238,0.35);
+    --bench:#14110E; --bench-2:#1C1815; --bench-3:#262019;
+    --bone:#F3ECE0; --bone-2:#D8CCB9; --bone-dim:#9C9183;
+    --ember:#C75300; --ember-2:#E0721E; --ember-3:#8A3A00; --copper:#B07A4A;
+    --rule:rgba(243,236,224,0.12); --rule-2:rgba(243,236,224,0.28);
   }
-  html, body {
-    background: var(--velvet);
-    color: var(--diamond);
-    font-family: var(--font-body);
+
+  html { scroll-behavior: auto; }
+  /* clip not hidden — keeps the document as the scroll container so window listeners + sticky work */
+  html, body { overflow-x: clip; }
+  body {
+    font-family: var(--font-body), "Archivo", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    /* Contain decorative/transform bleed so mobile browsers don't expand the
-       layout viewport past device-width (was inflating to ~552px on 375 phones). */
-    overflow-x: clip;
+    background: var(--bench);
+    color: var(--bone);
   }
-  ::selection { background: var(--champagne); color: var(--velvet); }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--ember); color: #fff; }
 }
 
-/* Velvet noise (very faint warm grain) */
-.velvet-grain {
-  background-image:
-    radial-gradient(rgba(245,242,238,0.025) 1px, transparent 1px),
-    radial-gradient(rgba(201,169,97,0.018) 1px, transparent 1.5px);
-  background-size: 3px 3px, 7px 7px;
+/* ---- material world ---- */
+@layer components {
+  .display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.015em; line-height: 0.96; }
+  .display-it { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+
+  .kicker {
+    font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+    font-weight: 600; color: var(--ember-2);
+    display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .kicker::before {
+    content: ""; width: 26px; height: 1px; background: var(--ember); display: inline-block;
+  }
+
+  .grain::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* warm grade applied uniformly to every sourced photo so a mixed set reads as one shop */
+  .graded { filter: saturate(0.82) contrast(1.04) brightness(0.92) sepia(0.12) hue-rotate(-8deg); }
+
+  .btn-ember {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    background: var(--ember); color: #fff; font-weight: 600;
+    padding: 0.85rem 1.5rem; border-radius: 2px; font-size: 0.95rem;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.2), 0 8px 30px -10px rgba(199,83,0,0.6);
+    transition: transform .25s ease, background .25s ease;
+  }
+  .btn-ember:hover { background: var(--ember-2); transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border: 1px solid var(--rule-2); color: var(--bone); font-weight: 600;
+    padding: 0.85rem 1.5rem; border-radius: 2px; font-size: 0.95rem;
+    transition: border-color .25s ease, color .25s ease;
+  }
+  .btn-ghost:hover { border-color: var(--ember); color: var(--ember-2); }
 }
 
-/* Champagne hairline divider */
-.gold-rule {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--champagne) 30%, var(--champagne) 70%, transparent);
+/* ---- reveal (visible by default, motion is additive only) ---- */
+.reveal-armed .reveal { opacity: 0; transform: translateY(26px); animation: revealRise .8s cubic-bezier(0.22,1,0.36,1) forwards; animation-delay: var(--d, 0s); }
+@keyframes revealRise { to { opacity: 1; transform: none; } }
+.reveal-done .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-armed .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+  * { scroll-behavior: auto !important; }
 }
 
-/* Facet light sweep (signature) */
-@keyframes facet-sweep {
-  0% { transform: translateX(-120%) skewX(-25deg); opacity: 0; }
-  20% { opacity: 0.45; }
-  80% { opacity: 0.45; }
-  100% { transform: translateX(220%) skewX(-25deg); opacity: 0; }
-}
-.facet-sweep {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 30%, rgba(245,242,238,0.55) 50%, transparent 70%);
-  animation: facet-sweep 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* Slow rotation for diamond SVG */
-@keyframes spin-slow { to { transform: rotate(360deg); } }
-.spin-slow { animation: spin-slow 30s linear infinite; transform-origin: 50% 50%; }
-
-/* Gentle reveal */
-@keyframes shimmer {
-  0%, 100% { opacity: 0.85; }
-  50% { opacity: 1; }
-}
-.shimmer { animation: shimmer 4s ease-in-out infinite; }
-
-.tabnum { font-variant-numeric: tabular-nums; }
-.font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; }
-.font-script  { font-family: var(--font-script); }
+/* thin copper hairline used as a marker */
+.hair { height: 1px; background: linear-gradient(90deg, var(--ember), transparent); }
