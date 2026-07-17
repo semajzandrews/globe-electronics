@@ -76,7 +76,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="text-bone-dim text-[0.82rem] hover:text-[color:var(--ember-2)] transition-colors"
           >
-            Built by <span className="display">bysemaj.com</span>
+            built <span className="display">bysemaj.com</span>
           </a>
         </div>
       </div>
